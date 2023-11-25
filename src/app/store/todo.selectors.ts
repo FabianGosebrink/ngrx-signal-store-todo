@@ -1,8 +1,7 @@
 import { computed } from '@angular/core';
 
 export function todoSelectors() {
-  return (state: any) => ({
-    itemLength: computed(() => state.items().length),
+  return (state) => ({
     doneCount: computed(() => state.items().filter((x) => x.done).length),
     undoneCount: computed(() => state.items().filter((x) => !x.done).length),
     percentageDone: computed(() => {

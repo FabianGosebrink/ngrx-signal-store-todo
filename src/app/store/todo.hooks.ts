@@ -1,8 +1,8 @@
 export function todoHooks() {
   return {
-    onInit({ loadAllTodos }) {
+    onInit({ loadAllTodosByPromise }) {
       console.log('on init');
-      loadAllTodos();
+      loadAllTodosByPromise();
     },
     onDestroy() {
       console.log('count on destroy');

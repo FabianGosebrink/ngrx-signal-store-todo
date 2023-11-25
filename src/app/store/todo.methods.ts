@@ -6,7 +6,7 @@ import { pipe, switchMap } from 'rxjs';
 import { Todo } from '../models/todo';
 import { TodoService } from '../todo.service';
 
-function loadAllTodos(state: any, todoService: TodoService) {
+function loadAllTodos(state, todoService: TodoService) {
   return rxMethod<void>(
     pipe(
       switchMap(() => {
@@ -24,7 +24,7 @@ function loadAllTodos(state: any, todoService: TodoService) {
   );
 }
 
-async function loadAllTodosByPromise(state: any, todoService: TodoService) {
+async function loadAllTodosByPromise(state, todoService: TodoService) {
   patchState(state, { loading: true });
 
   const items = await todoService.getItemsAsPromise();
@@ -32,7 +32,7 @@ async function loadAllTodosByPromise(state: any, todoService: TodoService) {
   patchState(state, { items, loading: true });
 }
 
-function addTodo(state: any, todoService: TodoService) {
+function addTodo(state, todoService: TodoService) {
   return rxMethod<string>(
     pipe(
       switchMap((value) => {
@@ -51,7 +51,7 @@ function addTodo(state: any, todoService: TodoService) {
   );
 }
 
-function moveToDone(state: any, todoService: TodoService) {
+function moveToDone(state, todoService: TodoService) {
   return rxMethod<Todo>(
     pipe(
       switchMap((todo) => {
@@ -81,7 +81,7 @@ function moveToDone(state: any, todoService: TodoService) {
   );
 }
 
-function deleteTodo(state: any, todoService: TodoService) {
+function deleteTodo(state, todoService: TodoService) {
   return rxMethod<Todo>(
     pipe(
       switchMap((todo) => {
@@ -105,7 +105,7 @@ function deleteTodo(state: any, todoService: TodoService) {
 }
 
 export function todoMethods() {
-  return (state: any, todoService = inject(TodoService)) => ({
+  return (state, todoService = inject(TodoService)) => ({
     loadAllTodos: loadAllTodos(state, todoService),
     loadAllTodosByPromise: () => loadAllTodosByPromise(state, todoService),
     addTodo: addTodo(state, todoService),
