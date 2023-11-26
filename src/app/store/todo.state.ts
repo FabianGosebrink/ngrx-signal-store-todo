@@ -1,14 +1,8 @@
-import {
-  signalStore,
-  withComputed,
-  withHooks,
-  withMethods,
-  withState,
-} from '@ngrx/signals';
+import { signalStore, withState } from '@ngrx/signals';
 import { Todo } from '../models/todo';
-import { todoHooks } from './todo.hooks';
-import { todoMethods } from './todo.methods';
-import { todoSelectors } from './todo.selectors';
+import { withTodoHooks } from './todo.hooks';
+import { withTodosMethods } from './todo.methods';
+import { withTodosSelectors } from './todo.selectors';
 
 export interface TodoState {
   items: Todo[];
@@ -23,7 +17,7 @@ export const initialState: TodoState = {
 export const TodoStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
-  withComputed(todoSelectors()),
-  withMethods(todoMethods()),
-  withHooks(todoHooks())
+  withTodosSelectors(),
+  withTodosMethods(),
+  withTodoHooks()
 );

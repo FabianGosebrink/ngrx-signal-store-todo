@@ -1,11 +1,13 @@
-export function todoHooks() {
-  return {
-    onInit({ loadAllTodosByPromise }) {
+import { withHooks } from '@ngrx/signals';
+
+export function withTodoHooks() {
+  return withHooks({
+    onInit({ loadAllTodos }) {
       console.log('on init');
-      loadAllTodosByPromise();
+      loadAllTodos();
     },
     onDestroy() {
       console.log('count on destroy');
     },
-  };
+  });
 }

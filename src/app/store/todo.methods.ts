@@ -1,10 +1,16 @@
 import { inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
-import { patchState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStoreFeature,
+  type,
+  withMethods,
+} from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap } from 'rxjs';
 import { Todo } from '../models/todo';
 import { TodoService } from '../todo.service';
+import { TodoState } from './todo.state';
 
 function loadAllTodos(state, todoService: TodoService) {
   return rxMethod<void>(
@@ -104,12 +110,15 @@ function deleteTodo(state, todoService: TodoService) {
   );
 }
 
-export function todoMethods() {
-  return (state, todoService = inject(TodoService)) => ({
-    loadAllTodos: loadAllTodos(state, todoService),
-    loadAllTodosByPromise: () => loadAllTodosByPromise(state, todoService),
-    addTodo: addTodo(state, todoService),
-    moveToDone: moveToDone(state, todoService),
-    deleteTodo: deleteTodo(state, todoService),
-  });
+export function withTodosMethods() {
+  return signalStoreFeature(
+    { state: type<TodoState>() },
+    withMethods((state, todoService = inject(TodoService)) => ({
+      loadAllTodos: loadAllTodos(state, todoService),
+      loadAllTodosByPromise: () => loadAllTodosByPromise(state, todoService),
+      addTodo: addTodo(state, todoService),
+      moveToDone: moveToDone(state, todoService),
+      deleteTodo: deleteTodo(state, todoService),
+    }))
+  );
 }
