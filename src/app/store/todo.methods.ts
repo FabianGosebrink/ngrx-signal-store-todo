@@ -35,7 +35,7 @@ async function loadAllTodosByPromise(state, todoService: TodoService) {
 
   const items = await todoService.getItemsAsPromise();
 
-  patchState(state, { items, loading: true });
+  patchState(state, { items, loading: false });
 }
 
 function addTodo(state, todoService: TodoService) {

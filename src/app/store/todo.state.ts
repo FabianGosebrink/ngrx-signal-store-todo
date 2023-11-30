@@ -1,6 +1,5 @@
-import { signalStore, withState } from '@ngrx/signals';
+import { signalStore, withHooks, withState } from '@ngrx/signals';
 import { Todo } from '../models/todo';
-import { withTodoHooks } from './todo.hooks';
 import { withTodosMethods } from './todo.methods';
 import { withTodosSelectors } from './todo.selectors';
 
@@ -19,5 +18,13 @@ export const TodoStore = signalStore(
   withState(initialState),
   withTodosSelectors(),
   withTodosMethods(),
-  withTodoHooks()
+  withHooks({
+    onInit({ loadAllTodosByPromise }) {
+      console.log('on init');
+      loadAllTodosByPromise();
+    },
+    onDestroy() {
+      console.log('count on destroy');
+    },
+  })
 );
