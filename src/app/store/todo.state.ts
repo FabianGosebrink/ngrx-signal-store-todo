@@ -24,7 +24,7 @@ export const TodoStore = signalStore(
       loadAllTodosByPromise();
     },
     onDestroy() {
-      console.log('count on destroy');
+      console.log('on destroy');
     },
   })
 );
