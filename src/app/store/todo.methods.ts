@@ -15,40 +15,40 @@ import { TodoState } from './todo.state';
 export function withTodosMethods() {
   return signalStoreFeature(
     { state: type<TodoState>() },
-    withMethods((state, todoService = inject(TodoService)) => ({
+    withMethods((store, todoService = inject(TodoService)) => ({
       loadAllTodos: rxMethod<void>(
         pipe(
           switchMap(() => {
-            patchState(state, { loading: true });
+            patchState(store, { loading: true });
 
             return todoService.getItems().pipe(
               tapResponse({
-                next: (items) => patchState(state, { items }),
+                next: (items) => patchState(store, { items }),
                 error: console.error,
-                finalize: () => patchState(state, { loading: false }),
+                finalize: () => patchState(store, { loading: false }),
               })
             );
           })
         )
       ),
       async loadAllTodosByPromise() {
-        patchState(state, { loading: true });
+        patchState(store, { loading: true });
 
         const items = await todoService.getItemsAsPromise();
 
-        patchState(state, { items, loading: false });
+        patchState(store, { items, loading: false });
       },
       addTodo: rxMethod<string>(
         pipe(
           switchMap((value) => {
-            patchState(state, { loading: true });
+            patchState(store, { loading: true });
 
             return todoService.addItem(value).pipe(
               tapResponse({
                 next: (item) =>
-                  patchState(state, { items: [...state.items(), item] }),
+                  patchState(store, { items: [...store.items(), item] }),
                 error: console.error,
-                finalize: () => patchState(state, { loading: false }),
+                finalize: () => patchState(store, { loading: false }),
               })
             );
           })
@@ -57,24 +57,24 @@ export function withTodosMethods() {
       moveToDone: rxMethod<Todo>(
         pipe(
           switchMap((todo) => {
-            patchState(state, { loading: true });
+            patchState(store, { loading: true });
 
             const toSend = { ...todo, done: !todo.done };
 
             return todoService.updateItem(toSend).pipe(
               tapResponse({
                 next: (updatedTodo) => {
-                  const allItems = [...state.items()];
+                  const allItems = [...store.items()];
                   const index = allItems.findIndex((x) => x.id === todo.id);
 
                   allItems[index] = updatedTodo;
 
-                  patchState(state, {
+                  patchState(store, {
                     items: allItems,
                   });
                 },
                 error: console.error,
-                finalize: () => patchState(state, { loading: false }),
+                finalize: () => patchState(store, { loading: false }),
               })
             );
           })
@@ -84,17 +84,17 @@ export function withTodosMethods() {
       deleteTodo: rxMethod<Todo>(
         pipe(
           switchMap((todo) => {
-            patchState(state, { loading: true });
+            patchState(store, { loading: true });
 
             return todoService.deleteItem(todo).pipe(
               tapResponse({
                 next: () => {
-                  patchState(state, {
-                    items: [...state.items().filter((x) => x.id !== todo.id)],
+                  patchState(store, {
+                    items: [...store.items().filter((x) => x.id !== todo.id)],
                   });
                 },
                 error: console.error,
-                finalize: () => patchState(state, { loading: false }),
+                finalize: () => patchState(store, { loading: false }),
               })
             );
           })

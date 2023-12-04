@@ -5,7 +5,7 @@ import { TodoState } from './todo.state';
 export function withTodosSelectors() {
   return signalStoreFeature(
     { state: type<TodoState>() },
-    withComputed(({ items, loading }) => ({
+    withComputed(({ items }) => ({
       doneCount: computed(() => items().filter((x) => x.done).length),
       undoneCount: computed(() => items().filter((x) => !x.done).length),
       percentageDone: computed(() => {
