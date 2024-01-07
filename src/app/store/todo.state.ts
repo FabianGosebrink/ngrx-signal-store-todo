@@ -1,8 +1,8 @@
 import { signalStore, withHooks, withMethods, withState } from '@ngrx/signals';
-import { Todo } from '../models/todo';
-import { TodoService } from '../todo.service';
 import { withCrudOperations } from './crud.state';
+import { Todo } from './todo';
 import { withTodoSelectors } from './todo.selectors';
+import { TodoService } from './todo.service';
 
 export interface TodoState {
   items: Todo[];

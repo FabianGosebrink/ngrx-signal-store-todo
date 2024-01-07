@@ -9,18 +9,20 @@ import {
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap } from 'rxjs';
-import { BaseEntity } from '../models/base-entitiy';
-import { CrudService } from '../todo.service';
+import { CrudService } from './crud-base.service';
+import { BaseEntity } from './todo';
 
-export function withCrudOperations<Entitiy extends BaseEntity>(
-  dataServiceType: Type<CrudService<Entitiy>>
+export type BaseState<Entitiy> = {
+  items: Entitiy[];
+  loading: boolean;
+};
+
+export function withCrudOperations<Entity extends BaseEntity>(
+  dataServiceType: Type<CrudService<Entity>>
 ) {
   return signalStoreFeature(
     {
-      state: type<{
-        items: Entitiy[];
-        loading: boolean;
-      }>(),
+      state: type<BaseState<Entity>>(),
     },
     withMethods((store) => {
       const service = inject(dataServiceType);
@@ -54,7 +56,7 @@ export function withCrudOperations<Entitiy extends BaseEntity>(
           patchState(store, { items, loading: false });
         },
 
-        deleteItem: rxMethod<Entitiy>(
+        deleteItem: rxMethod<Entity>(
           pipe(
             switchMap((item) => {
               patchState(store, { loading: true });
@@ -74,7 +76,7 @@ export function withCrudOperations<Entitiy extends BaseEntity>(
           )
         ),
 
-        update: rxMethod<Entitiy>(
+        update: rxMethod<Entity>(
           pipe(
             switchMap((item) => {
               patchState(store, { loading: true });

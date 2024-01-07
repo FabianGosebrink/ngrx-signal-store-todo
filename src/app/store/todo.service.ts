@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, lastValueFrom } from 'rxjs';
-import { Todo } from './models/todo';
+import { CrudService } from './crud-base.service';
+import { Todo } from './todo';
 
 const apiUrl = `https://sampletodobackend.azurewebsites.net/api/v1/`;
 
@@ -36,18 +37,4 @@ export class TodoService implements CrudService<Todo> {
   deleteItem(value: Todo) {
     return this.http.delete(`${this.url}/${value.id}`);
   }
-}
-
-export interface CrudService<T> {
-  getItems(): Observable<T[]>;
-
-  getItemsAsPromise(): Promise<T[]>;
-
-  getItem(id: string): Observable<T>;
-
-  addItem(value: string): Observable<T>;
-
-  updateItem(value: T): Observable<T>;
-
-  deleteItem(value: T): Observable<any>;
 }
