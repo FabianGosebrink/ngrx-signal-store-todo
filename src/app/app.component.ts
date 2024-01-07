@@ -24,7 +24,7 @@ export class AppComponent {
   });
 
   addTodo() {
-    this.store.addTodo(this.form.value.todoValue);
+    this.store.addItem(this.form.value.todoValue);
     this.form.reset();
   }
 
