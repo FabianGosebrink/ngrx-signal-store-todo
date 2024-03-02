@@ -29,23 +29,21 @@ export function withCrudOperations<Entity extends BaseEntity>(
 
       return {
         addItem: rxMethod<string>(
-          pipe(
-            switchMap((value) => {
-              patchState(store, { loading: true });
+          switchMap((value) => {
+            patchState(store, { loading: true });
 
-              return service.addItem(value).pipe(
-                tapResponse({
-                  next: (addedItem) => {
-                    patchState(store, {
-                      items: [...store.items(), addedItem],
-                    });
-                  },
-                  error: console.error,
-                  finalize: () => patchState(store, { loading: false }),
-                })
-              );
-            })
-          )
+            return service.addItem(value).pipe(
+              tapResponse({
+                next: (addedItem) => {
+                  patchState(store, {
+                    items: [...store.items(), addedItem],
+                  });
+                },
+                error: console.error,
+                finalize: () => patchState(store, { loading: false }),
+              })
+            );
+          })
         ),
 
         async loadAllItemsByPromise() {
