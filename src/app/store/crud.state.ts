@@ -8,7 +8,7 @@ import {
   withMethods,
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { pipe, switchMap } from 'rxjs';
+import { switchMap } from 'rxjs';
 import { CrudService } from './crud-base.service';
 import { BaseEntity } from './todo';
 
@@ -55,48 +55,44 @@ export function withCrudOperations<Entity extends BaseEntity>(
         },
 
         deleteItem: rxMethod<Entity>(
-          pipe(
-            switchMap((item) => {
-              patchState(store, { loading: true });
+          switchMap((item) => {
+            patchState(store, { loading: true });
 
-              return service.deleteItem(item).pipe(
-                tapResponse({
-                  next: () => {
-                    patchState(store, {
-                      items: [...store.items().filter((x) => x.id !== item.id)],
-                    });
-                  },
-                  error: console.error,
-                  finalize: () => patchState(store, { loading: false }),
-                })
-              );
-            })
-          )
+            return service.deleteItem(item).pipe(
+              tapResponse({
+                next: () => {
+                  patchState(store, {
+                    items: [...store.items().filter((x) => x.id !== item.id)],
+                  });
+                },
+                error: console.error,
+                finalize: () => patchState(store, { loading: false }),
+              })
+            );
+          })
         ),
 
         update: rxMethod<Entity>(
-          pipe(
-            switchMap((item) => {
-              patchState(store, { loading: true });
+          switchMap((item) => {
+            patchState(store, { loading: true });
 
-              return service.updateItem(item).pipe(
-                tapResponse({
-                  next: (updatedItem) => {
-                    const allItems = [...store.items()];
-                    const index = allItems.findIndex((x) => x.id === item.id);
+            return service.updateItem(item).pipe(
+              tapResponse({
+                next: (updatedItem) => {
+                  const allItems = [...store.items()];
+                  const index = allItems.findIndex((x) => x.id === item.id);
 
-                    allItems[index] = updatedItem;
+                  allItems[index] = updatedItem;
 
-                    patchState(store, {
-                      items: allItems,
-                    });
-                  },
-                  error: console.error,
-                  finalize: () => patchState(store, { loading: false }),
-                })
-              );
-            })
-          )
+                  patchState(store, {
+                    items: allItems,
+                  });
+                },
+                error: console.error,
+                finalize: () => patchState(store, { loading: false }),
+              })
+            );
+          })
         ),
       };
     }),
