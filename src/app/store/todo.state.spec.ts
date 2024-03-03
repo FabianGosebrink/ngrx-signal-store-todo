@@ -1,4 +1,5 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
+import { of } from 'rxjs';
 import { provideMock } from '../../../testing/auto-mock';
 import { Todo } from './todo';
 import { TodoService } from './todo.service';
@@ -20,7 +21,8 @@ describe('TodoStore', () => {
       // arrange
       const store = TestBed.inject(TodoStore);
       const item = { id: '1', value: 'test', done: false } as Todo;
-      const spy = spyOn(store, 'update');
+      spyOn(service, 'updateItem').and.returnValue(of(item));
+      const spy = spyOn(store, 'update').and.callThrough();
 
       // act
       store.moveToDone(item);
