@@ -21,8 +21,8 @@ describe('TodoStore', () => {
       // arrange
       const store = TestBed.inject(TodoStore);
       const item = { id: '1', value: 'test', done: false } as Todo;
-      spyOn(service, 'updateItem').and.returnValue(of(item));
-      const spy = spyOn(store, 'update').and.callThrough();
+      jest.spyOn(service, 'updateItem').mockReturnValue(of(item));
+      const spy = jest.spyOn(store, 'update');
 
       // act
       store.moveToDone(item);

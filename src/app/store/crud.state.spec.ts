@@ -27,7 +27,7 @@ describe('CrudState', () => {
     // arrange
     const store = TestBed.inject(testStore);
     const item = { id: '1', value: 'test' } as Todo;
-    const spy = spyOn(service, 'addItem').and.returnValue(of(item));
+    const spy = jest.spyOn(service, 'addItem').mockReturnValue(of(item));
 
     // act
     store.addItem('test');
@@ -42,9 +42,9 @@ describe('CrudState', () => {
     // arrange
     const store = TestBed.inject(testStore);
     const items = [{ id: '1', value: 'test' } as Todo];
-    const spy = spyOn(service, 'getItemsAsPromise').and.returnValue(
-      Promise.resolve(items)
-    );
+    const spy = jest
+      .spyOn(service, 'getItemsAsPromise')
+      .mockReturnValue(Promise.resolve(items));
 
     // act
     store.loadAllItemsByPromise().then(() => {
@@ -59,9 +59,9 @@ describe('CrudState', () => {
     // arrange
     const store = TestBed.inject(testStore);
     const items = [{ id: '1', value: 'test' } as Todo];
-    const spy = spyOn(service, 'getItemsAsPromise').and.returnValue(
-      Promise.resolve(items)
-    );
+    const spy = jest
+      .spyOn(service, 'getItemsAsPromise')
+      .mockReturnValue(Promise.resolve(items));
 
     // act
     store.loadAllItemsByPromise().then(() => {
@@ -76,12 +76,12 @@ describe('CrudState', () => {
     // arrange
     const store = TestBed.inject(testStore);
     const item = { id: '1', value: 'test' } as Todo;
-    spyOn(service, 'addItem').and.returnValue(of(item));
+    jest.spyOn(service, 'addItem').mockReturnValue(of(item));
     store.addItem('test');
 
     expect(store.items()).toEqual([item]);
 
-    const spy = spyOn(service, 'deleteItem').and.returnValue(of(null));
+    const spy = jest.spyOn(service, 'deleteItem').mockReturnValue(of(null));
 
     // act
     store.deleteItem(item);
@@ -96,13 +96,15 @@ describe('CrudState', () => {
     // arrange
     const store = TestBed.inject(testStore);
     const item = { id: '1', value: 'test' } as Todo;
-    spyOn(service, 'addItem').and.returnValue(of(item));
+    jest.spyOn(service, 'addItem').mockReturnValue(of(item));
     store.addItem('test');
 
     expect(store.items()).toEqual([item]);
 
     const updatedItem = { id: '1', value: 'updated' } as Todo;
-    const spy = spyOn(service, 'updateItem').and.returnValue(of(updatedItem));
+    const spy = jest
+      .spyOn(service, 'updateItem')
+      .mockReturnValue(of(updatedItem));
 
     // act
     store.update(updatedItem);
