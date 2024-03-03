@@ -16,11 +16,9 @@ export const TodoStore = signalStore(
   withState(initialState),
   withCrudOperations<Todo>(TodoService),
   withTodoSelectors(),
-  withMethods((store) => ({
+  withMethods(() => ({
     moveToDone(item: Todo) {
-      console.log('@@@@ before');
-      store.update({ ...item, done: true });
-      console.log('@@@@ after');
+      this.update({ ...item, done: true });
     },
   })),
   withHooks({
