@@ -98,7 +98,6 @@ export function withCrudOperations<Entity extends BaseEntity>(
     }),
 
     withComputed(({ items }) => ({
-      allItems: computed(() => items()),
       allItemsCount: computed(() => items().length),
     }))
   );
