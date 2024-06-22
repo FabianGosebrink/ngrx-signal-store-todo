@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { Observable, lastValueFrom } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { lastValueFrom, Observable } from 'rxjs';
 import { Todo } from './todo';
 
 const apiUrl = `https://sampletodobackend.azurewebsites.net/api/v1/`;
@@ -8,7 +8,7 @@ const apiUrl = `https://sampletodobackend.azurewebsites.net/api/v1/`;
 @Injectable({
   providedIn: 'root',
 })
-export class TodoService{
+export class TodoService {
   private readonly http = inject(HttpClient);
 
   private url = `${apiUrl}todos`;

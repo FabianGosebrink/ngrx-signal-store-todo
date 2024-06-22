@@ -13,50 +13,50 @@
 
             <form
               (ngSubmit)="addTodo()"
-              class="d-flex justify-content-center align-items-center mb-4"
               [formGroup]="form"
+              class="d-flex justify-content-center align-items-center mb-4"
             >
               <div class="form-outline flex-fill">
                 <input
-                  formControlName="todoValue"
-                  type="text"
-                  id="form1"
                   class="form-control form-control-lg"
+                  formControlName="todoValue"
+                  id="form1"
+                  type="text"
                 />
               </div>
               <button
-                type="submit"
                 [disabled]="form.invalid"
                 class="btn btn-primary btn-lg ms-2"
+                type="submit"
               >
                 Add
               </button>
             </form>
 
-            <ul class="list-group mb-0">
+            <ul [style.opacity]="store.loading() ? '0.5' : 1" class="list-group mb-0">
               @for (item of store.items(); track item.id) {
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2"
-              >
-                <div class="d-flex align-items-center">
-                  <input
-                    class="form-check-input me-2"
-                    type="checkbox"
-                    [checked]="item.done"
-                    value=""
-                    aria-label="..."
-                    (click)="store.moveToDone(item)"
-                  />
-                  {{ item.value }}
-                </div>
-                <button
-                  type="button"
-                  class="btn btn-danger btn-sm"
-                  (click)="store.deleteTodo(item)"
+                <li
+                  class="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2"
                 >
-                  Delete
-                </button>
-              </li>
+                  <div class="d-flex align-items-center">
+                    <input
+                      class="form-check-input me-2"
+                      type="checkbox"
+                      [checked]="item.done"
+                      value=""
+                      aria-label="..."
+                      (click)="store.moveToDone(item)"
+                    />
+                    {{ item.value }}
+                  </div>
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm"
+                    (click)="store.deleteTodo(item)"
+                  >
+                    Delete
+                  </button>
+                </li>
               }
             </ul>
           </div>

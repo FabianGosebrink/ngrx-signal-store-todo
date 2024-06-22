@@ -26,5 +26,5 @@ export const TodoStore = signalStore(
     onDestroy() {
       console.log('on destroy');
     },
-  })
+  }),
 );
