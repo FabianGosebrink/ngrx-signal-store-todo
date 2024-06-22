@@ -17,8 +17,8 @@ export const TodoStore = signalStore(
   withCrudOperations<Todo>(TodoService),
   withTodoSelectors(),
   withMethods(() => ({
-    moveToDone(item: Todo) {
-      this.update({ ...item, done: true });
+    toggleDone(item: Todo) {
+      this.update({ ...item, done: !item.done });
     },
   })),
   withHooks({

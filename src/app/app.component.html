@@ -45,7 +45,7 @@
                     [checked]="item.done"
                     value=""
                     aria-label="..."
-                    (click)="store.moveToDone(item)"
+                    (click)="store.toggleDone(item)"
                   />
                   {{ item.value }}
                 </div>
