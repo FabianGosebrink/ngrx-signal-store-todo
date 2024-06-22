@@ -2,7 +2,7 @@ import { computed } from '@angular/core';
 import { signalStoreFeature, type, withComputed } from '@ngrx/signals';
 import { TodoState } from './todo.state';
 
-export function withTodoSelectors() {
+export function withTodosSelectors() {
   return signalStoreFeature(
     {
       state: type<TodoState>(),

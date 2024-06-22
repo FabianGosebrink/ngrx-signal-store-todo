@@ -16,17 +16,18 @@ import { TodoStore } from './store/todo.state';
 export class AppComponent {
   readonly store = inject(TodoStore);
 
-  private readonly formbuilder = inject(FormBuilder);
+  title = 'ngrx-signal-store-todo';
 
-  form = this.formbuilder.group({
+  private readonly formBuilder = inject(FormBuilder);
+
+  form = this.formBuilder.group({
     todoValue: ['', Validators.required],
     done: [false],
   });
 
   addTodo() {
-    this.store.addItem(this.form.value.todoValue);
+    this.store.addTodo(this.form.value.todoValue);
     this.form.reset();
   }
 
-  title = 'ngrx-signal-store-todo';
 }

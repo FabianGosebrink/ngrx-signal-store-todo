@@ -1,10 +1,12 @@
-import { signalStore, withHooks, withMethods, withState } from '@ngrx/signals';
-import { BaseState, withCrudOperations } from './crud.state';
+import { signalStore, withHooks, withState } from '@ngrx/signals';
 import { Todo } from './todo';
-import { withTodoSelectors } from './todo.selectors';
-import { TodoService } from './todo.service';
+import { withTodosMethods } from './todo.methods';
+import { withTodosSelectors } from './todo.selectors';
 
-export interface TodoState extends BaseState<Todo> {}
+export interface TodoState {
+  items: Todo[];
+  loading: boolean;
+}
 
 export const initialState: TodoState = {
   items: [],
@@ -14,17 +16,12 @@ export const initialState: TodoState = {
 export const TodoStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
-  withCrudOperations<Todo>(TodoService),
-  withTodoSelectors(),
-  withMethods(() => ({
-    moveToDone(item: Todo) {
-      this.update({ ...item, done: true });
-    },
-  })),
+  withTodosSelectors(),
+  withTodosMethods(),
   withHooks({
-    onInit({ loadAllItemsByPromise }) {
+    onInit({ loadAllTodosByPromise }) {
       console.log('on init');
-      loadAllItemsByPromise();
+      loadAllTodosByPromise();
     },
     onDestroy() {
       console.log('on destroy');
