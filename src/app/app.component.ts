@@ -10,7 +10,6 @@ import { TodoStore } from './store/todo.state';
   imports: [CommonModule, RouterOutlet, ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  providers: [TodoStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
@@ -29,5 +28,4 @@ export class AppComponent {
     this.store.addTodo(this.form.value.todoValue);
     this.form.reset();
   }
-
 }
