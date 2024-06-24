@@ -11,7 +11,7 @@ export function withTodosMethods() {
   return signalStoreFeature(
     { state: type<TodoState>() },
     withMethods((store, todoService = inject(TodoService)) => ({
-      loadAllTodos: rxMethod<void>(
+      loadAllTodos: rxMethod(
         switchMap(() => {
           patchState(store, { loading: true });
 
