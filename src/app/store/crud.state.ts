@@ -1,24 +1,18 @@
-import { Type, computed, inject } from '@angular/core';
+import { computed, inject, Type } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
-import {
-  patchState,
-  signalStoreFeature,
-  type,
-  withComputed,
-  withMethods,
-} from '@ngrx/signals';
+import { patchState, signalStoreFeature, type, withComputed, withMethods } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { switchMap } from 'rxjs';
 import { CrudService } from './crud-base.service';
 import { BaseEntity } from './todo';
 
-export type BaseState<Entitiy> = {
-  items: Entitiy[];
+export type BaseState<Entity> = {
+  items: Entity[];
   loading: boolean;
 };
 
 export function withCrudOperations<Entity extends BaseEntity>(
-  dataServiceType: Type<CrudService<Entity>>
+  dataServiceType: Type<CrudService<Entity>>,
 ) {
   return signalStoreFeature(
     {
@@ -41,9 +35,9 @@ export function withCrudOperations<Entity extends BaseEntity>(
                 },
                 error: console.error,
                 finalize: () => patchState(store, { loading: false }),
-              })
+              }),
             );
-          })
+          }),
         ),
 
         async loadAllItemsByPromise() {
@@ -67,9 +61,9 @@ export function withCrudOperations<Entity extends BaseEntity>(
                 },
                 error: console.error,
                 finalize: () => patchState(store, { loading: false }),
-              })
+              }),
             );
-          })
+          }),
         ),
 
         update: rxMethod<Entity>(
@@ -90,15 +84,15 @@ export function withCrudOperations<Entity extends BaseEntity>(
                 },
                 error: console.error,
                 finalize: () => patchState(store, { loading: false }),
-              })
+              }),
             );
-          })
+          }),
         ),
       };
     }),
 
     withComputed(({ items }) => ({
       allItemsCount: computed(() => items().length),
-    }))
+    })),
   );
 }
