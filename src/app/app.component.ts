@@ -10,11 +10,12 @@ import { TodoStore } from './store/todo.state';
   imports: [CommonModule, RouterOutlet, ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  providers: [TodoStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
   readonly store = inject(TodoStore);
+
+  title = 'ngrx-signal-store-todo';
 
   private readonly formbuilder = inject(FormBuilder);
 
@@ -27,6 +28,4 @@ export class AppComponent {
     this.store.addItem(this.form.value.todoValue);
     this.form.reset();
   }
-
-  title = 'ngrx-signal-store-todo';
 }
